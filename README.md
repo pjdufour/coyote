@@ -1,4 +1,4 @@
-Swing/JOGL GUI (compatible with [felspar](https://github.com/pjdufour/felspar))
+Coyote - Swing/JOGL GUI (compatible with [felspar](https://github.com/pjdufour/felspar))
 ===
 
 ### Description
