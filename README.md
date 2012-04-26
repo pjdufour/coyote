@@ -19,3 +19,4 @@ Dependencies:
 - [tecolote](https://github.com/pjdufour/tecolote)
 - JOGL
 - Jython
+- JInput
