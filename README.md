@@ -12,7 +12,7 @@ Each dialog and GLCanvas specified are loaded on read; however, they are not "co
 ### Example
 
 
-### To build:
+### Building
 
 Dependencies:
 
