@@ -16,7 +16,6 @@ Each dialog and GLCanvas specified are loaded on read; however, they are not "co
 
 Dependencies:
 
-- [felspar](https://github.com/pjdufour/felspar)
 - [tecolote](https://github.com/pjdufour/tecolote)
 - JOGL
 - Jython
