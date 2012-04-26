@@ -17,6 +17,7 @@ Each dialog and GLCanvas specified are loaded on read; however, they are not "co
 Dependencies:
 
 - [tecolote](https://github.com/pjdufour/tecolote)
+- [balboa](https://github.com/pjdufour/balboa)
 - JOGL (Java OpenGL)
 - Jython (Java Python)
 - JInput (Java Game Controller API)
