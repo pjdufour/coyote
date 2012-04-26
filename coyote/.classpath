@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="jogamp-windows-amd64/jar/jogl.all.jar"/>
 	<classpathentry kind="lib" path="jar/jinput-test.jar"/>
 	<classpathentry kind="lib" path="jar/jinput.jar"/>
+	<classpathentry kind="lib" path="balboa/balboa.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
