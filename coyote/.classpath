@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="jar/vecmath.jar"/>
 	<classpathentry kind="lib" path="jogamp-windows-amd64/jar/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="jogamp-windows-amd64/jar/jogl.all.jar"/>
+	<classpathentry kind="lib" path="jar/jinput-test.jar"/>
+	<classpathentry kind="lib" path="jar/jinput.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
