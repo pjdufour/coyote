@@ -24,9 +24,9 @@ import nova.library.core.Game;
 import nova.library.core.Logs;
 import nova.library.graphics.textures.NGLTexture;
 import nova.library.utilities.Parser;
-import nova.library.vecmath.Face3d;
-import nova.library.vecmath.Vector3d;
-import nova.library.vecmath.Vertex3d;
+import nova.library.graphics.vecmath.Face3d;
+import nova.library.graphics.vecmath.Vector3d;
+import nova.library.graphics.vecmath.Vertex3d;
 
 public class NGLTerrain
 {

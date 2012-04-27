@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import nova.library.GLOBALS;
 import nova.library.graphics.textures.NGLTexture;
 import nova.library.utilities.Parser;
-import nova.library.vecmath.Face3d;
-import nova.library.vecmath.Vertex3d;
+import nova.library.graphics.vecmath.Face3d;
+import nova.library.graphics.vecmath.Vertex3d;
 import nova.library.xml.XMLElementList;
 
 public class NGLModel
