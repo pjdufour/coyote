@@ -17,16 +17,12 @@ import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
-import nova.library.GLOBALS;
-import nova.library.core.Cell;
-import nova.library.core.Engine;
-import nova.library.core.Game;
-import nova.library.core.Logs;
-import nova.library.graphics.textures.NGLTexture;
 import nova.library.utilities.Parser;
+import nova.library.graphics.textures.BalboaTexture;
 import nova.library.graphics.vecmath.Face3d;
 import nova.library.graphics.vecmath.Vector3d;
 import nova.library.graphics.vecmath.Vertex3d;
+import nova.library.logs.Logs;
 
 public class NGLTerrain
 {
@@ -417,7 +413,7 @@ public class NGLTerrain
 						engine.textures.get(current_texture).texture.bind(gl);
 					}
 					
-					NGLTexture texture = engine.textures.get(current_texture);
+					BalboaTexture texture = engine.textures.get(current_texture);
 					
 				    gl.glTexCoord2f(texture.left,texture.bottom);
 					gl.glNormal3f((float)normals[z][x].x,(float)normals[z][x].y,(float)normals[z][x].z);
@@ -481,7 +477,7 @@ public class NGLTerrain
 					engine.textures.get(current_texture).texture.bind(gl);
 				}
 				
-				NGLTexture texture = engine.textures.get(current_texture);
+				BalboaTexture texture = engine.textures.get(current_texture);
 				
 			    gl.glTexCoord2f(texture.left,texture.bottom);
 				gl.glNormal3f((float)normals[z][x].x,(float)normals[z][x].y,(float)normals[z][x].z);

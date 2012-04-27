@@ -14,12 +14,13 @@ import javax.media.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
-import nova.library.core.Game;
-import nova.library.core.Settings;
+import nova.game.Coyote;
+import nova.library.settings.Settings;
+
 
 public class NGLIcon
 {	
-	private Game game;
+	private Coyote coyote;
 	
 	private String name;
 	private String icon_filename;
@@ -32,16 +33,16 @@ public class NGLIcon
 	private Texture texture_selected;
 	private Texture texture_hover;
 	
-	public NGLIcon(Game game,String name,String icon_filename)
+	public NGLIcon(Coyote coyote,String name,String icon_filename)
 	{
-		this.game = game;
+		this.coyote = coyote;
 		this.name = name;
 		this.icon_filename = icon_filename;
 	}
 	public void compile()
 	{
 		try{
-		Settings settings = game.getSettings();
+		Settings settings = coyote.getSettings();
 		color_normal = settings.getColor(Settings.UI_COLOR_TOOL_BACKGROUND);
 		color_selected = settings.getColor(Settings.UI_COLOR_TOOL_SELECTED);
 		color_hover = settings.getColor(Settings.UI_COLOR_TOOL_HOVER);

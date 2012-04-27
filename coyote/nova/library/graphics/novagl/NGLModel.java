@@ -3,8 +3,7 @@ package nova.library.graphics.novagl;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import nova.library.GLOBALS;
-import nova.library.graphics.textures.NGLTexture;
+import nova.library.graphics.textures.BalboaTexture;
 import nova.library.utilities.Parser;
 import nova.library.graphics.vecmath.Face3d;
 import nova.library.graphics.vecmath.Vertex3d;
@@ -18,13 +17,13 @@ public class NGLModel
 	//public Face3d faces[];	
 	public NGLMaterial materials[];
 	
-	public NGLModel(String name, String geometry,HashMap<String,NGLTexture> texturemaps)
+	public NGLModel(String name, String geometry,HashMap<String,BalboaTexture> texturemaps)
 	{
 		this.name = name;
 		this.geometry = geometry;
 		load(geometry,texturemaps,.1);
 	}
-	public void load(String geometry,HashMap<String,NGLTexture> texturemaps,double scale)
+	public void load(String geometry,HashMap<String,BalboaTexture> texturemaps,double scale)
 	{
 		LinkedList<NGLGroup> groups = new LinkedList<NGLGroup>();
 		LinkedList<Face3d> faces = new LinkedList<Face3d>();

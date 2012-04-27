@@ -5,12 +5,12 @@ public interface Command
 {
 	public static final int TYPE_BUILTIN = 1;
 	public static final int TYPE_PYTHON = 2;
-	protected Game game;
+	public Coyote coyote;
 	public int type;
 
-	public Command(Game game,int type)
+	public Command(Coyote coyote,int type)
 	{
-		this.game = game;
+		this.coyote = coyote;
 		this.type = type;
 	}
 	public void execute();

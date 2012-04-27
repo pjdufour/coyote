@@ -1,7 +1,7 @@
 package nova.library.graphics.novagl;
 
 import nova.library.core.Engine;
-import nova.library.vecmath.Vector3d;
+import nova.library.graphics.vecmath.Vector3d;
 
 public class NGLCamera
 {

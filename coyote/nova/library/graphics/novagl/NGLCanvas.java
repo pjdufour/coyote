@@ -53,18 +53,12 @@ import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Event;
 import net.java.games.input.EventQueue;
-import nova.library.core.Cell;
-import nova.library.core.Engine;
-import nova.library.core.Game;
-import nova.library.core.KeyBindings;
-import nova.library.core.MapDescription;
-import nova.library.core.Mode;
-import nova.library.core.Settings;
-import nova.library.graphics.textures.NGLTexture;
+import nova.game.Coyote;
+import nova.library.settings.Settings;
 import nova.library.utilities.Parser;
-import nova.library.vecmath.Face3d;
-import nova.library.vecmath.Vector3d;
-import nova.library.vecmath.Vertex3d;
+import nova.library.graphics.vecmath.Face3d;
+import nova.library.graphics.vecmath.Vector3d;
+import nova.library.graphics.vecmath.Vertex3d;
 
 public class NGLCanvas extends JPanel
 	implements MouseListener, MouseMotionListener, MouseWheelListener, FocusListener, GLEventListener, KeyListener, ComponentListener
@@ -99,7 +93,7 @@ public class NGLCanvas extends JPanel
 	
 	private int currentCamera = -1;
 	private NGLCamera cameras[];
-	private Game game;
+	private Coyote coyote;
 	
 	private HUD hud;
 	
@@ -112,16 +106,16 @@ public class NGLCanvas extends JPanel
 	//Derived from rayselection of the terrain
 	private NGLTerrainSelection selection; 
 	
-	public NGLCanvas(Game game,int width,int height)
+	public NGLCanvas(Coyote coyote,int width,int height)
 	{
-		this.game = game;
+		this.coyote = coyote;
 		this.width = width;
 		this.height = height;
 		//this.setPreferredSize(new Dimension(width,height));
 		
 		Engine engine = game.getEngine();
 		cameras = new NGLCamera[]{new NGLCamera(engine,NGLCamera.TYPE_FLYBY),new NGLCamera(engine,NGLCamera.TYPE_RTS),new NGLCamera(engine,NGLCamera.TYPE_FPS)};
-		hud = new HUD(game);
+		hud = new HUD(coyote);
 		
 		this.setLayout(new GridLayout(1,1));
 		this.setBackground(Color.BLACK);
@@ -143,8 +137,8 @@ public class NGLCanvas extends JPanel
 
 	public void activate()
 	{		
-		Engine engine = game.getEngine();
-		Settings settings = game.getSettings();
+		Engine engine = coyote.getEngine();
+		Settings settings = coyote.getSettings();
 		//Dimension res = Parser.parseDimension(settings.getString(Settings.RESOLUTION));
 		
 		//Set Current Camera based on currentMode
@@ -236,8 +230,8 @@ public class NGLCanvas extends JPanel
 	}
 	public void navigate(Controller controller,double mouse_sensitivity)
 	{
-		Engine engine = game.getEngine();
-		KeyBindings bindings = game.getSettings().getKeyBindings();
+		Engine engine = coyote.getEngine();
+		KeyBindings bindings = coyote.getSettings().getKeyBindings();
 		NGLCamera camera = getActiveCamera();
 		
 		if(camera.type==NGLCamera.TYPE_RTS)
@@ -340,7 +334,7 @@ public class NGLCanvas extends JPanel
 	public void display(GLAutoDrawable drawable)
 	{
 		
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		GL2 gl = drawable.getGL().getGL2();
 		GLU glu = new GLU();
 
@@ -393,7 +387,7 @@ public class NGLCanvas extends JPanel
         gl.glEnable(GL2.GL_DEPTH_TEST);
         
 		gl.glEnable(GL2.GL_LIGHTING);
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		raytracing_triangles(gl,engine.terrain);
 		display_terrain(gl,engine.terrain);
         //display_lots(gl);
@@ -570,7 +564,7 @@ public class NGLCanvas extends JPanel
 		System.err.println("\tDistance: "+selection.d);
 			//gl.glDisable(GL2.GL_TEXTURE_2D);
 		 */
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		NGLCamera c = cameras[currentCamera];
 		int current_texture = engine.landcover.get(terrain.landcover[0][0]).texture;
 		gl.glPolygonMode(GL.GL_FRONT,GL2.GL_FILL);
@@ -597,7 +591,7 @@ public class NGLCanvas extends JPanel
 					engine.textures.get(current_texture).texture.enable(gl);
 					gl.glBegin(GL2.GL_TRIANGLES);
 				}
-				NGLTexture texture = engine.textures.get(current_texture);
+				BalboaTexture texture = engine.textures.get(current_texture);
 				if(selection.isCurrent(x,z))
 				{
 					gl.glEnd();//End Triangles
@@ -936,7 +930,7 @@ public class NGLCanvas extends JPanel
 		System.err.println("\tDistance: "+selection.d);
 			//gl.glDisable(GL2.GL_TEXTURE_2D);
 		 */
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		NGLCamera c = cameras[currentCamera];
 		int current_texture = engine.landcover.get(terrain.landcover[0][0]).texture;
 		gl.glPolygonMode(GL.GL_FRONT,GL2.GL_FILL);
@@ -1160,7 +1154,7 @@ public class NGLCanvas extends JPanel
 	}
 	private void display_lots(GL2 gl)
 	{
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		gl.glPolygonMode(GL2.GL_FRONT_AND_BACK,GL2.GL_FILL);
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		gl.glTexEnvf(GL2.GL_TEXTURE_ENV,GL2.GL_TEXTURE_ENV_MODE,GL2.GL_REPLACE);
@@ -1218,7 +1212,7 @@ public class NGLCanvas extends JPanel
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glPushMatrix();
 		gl.glLoadIdentity();
-		Dimension res = Parser.parseDimension(game.getSettings().getString(Settings.RESOLUTION));
+		Dimension res = Parser.parseDimension(coyote.getSettings().getString(Settings.RESOLUTION));
 		glu.gluOrtho2D(0,res.getWidth(),0,res.getHeight());
 		//gl.glDisable(GL2.GL_LIGHT0);
 		//gl.glDisable(GL2.GL_LIGHTING);
@@ -1268,7 +1262,7 @@ public class NGLCanvas extends JPanel
 	}
 	private void display_mode(GL2 gl)
 	{
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		//Settings settings = game.getSettings();
 		GLUT glut = new GLUT();
 		
@@ -1277,8 +1271,8 @@ public class NGLCanvas extends JPanel
 	}
 	private void display_info(GL2 gl)
 	{
-		Engine engine = game.getEngine();
-		Settings settings = game.getSettings();
+		Engine engine = coyote.getEngine();
+		Settings settings = coyote.getSettings();
 		GLUT glut = new GLUT();
 
 		float x = .70f;
@@ -1338,7 +1332,7 @@ public class NGLCanvas extends JPanel
 	}
 	private void display_ui(GL2 gl,double width,double height)
 	{
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		//LinkedHashMap<Integer,NGLIcon> icons = engine.icons;
 		gl.glPolygonMode(GL.GL_FRONT,GL2.GL_FILL);
 		gl.glEnable(GL2.GL_TEXTURE_2D);
@@ -1464,13 +1458,13 @@ public class NGLCanvas extends JPanel
 	
 	public void init_hud(GL2 gl)
 	{		
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		for(int i: engine.icons.keySet())
 			engine.icons.get(i).compile();	
 	}
 	public void init_texture(GL2 gl) throws GLException, IOException, ScriptException
 	{
-		Engine engine = game.getEngine();
+		Engine engine = coyote.getEngine();
 		//gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_WRAP_S,GL.GL_REPEAT);
 		//gl.glTexParameteri(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_WRAP_T,GL.GL_REPEAT);
 		for(int i: engine.textures.keySet())
@@ -1535,10 +1529,10 @@ public class NGLCanvas extends JPanel
 	{		
 		if(cameras[currentCamera].type==NGLCamera.TYPE_RTS)
 		{
-			NGLTerrain t = game.getEngine().terrain;
+			NGLTerrain t = coyote.getEngine().terrain;
 			//Adjust for terrain
-			int cell_x = Math.min(Math.max((int)(cameras[currentCamera].x/10.0),0),game.getEngine().terrain.num_cols-3);
-			int cell_z =  Math.min(Math.max((int)(cameras[currentCamera].z/10.0),0),game.getEngine().terrain.num_rows-3);
+			int cell_x = Math.min(Math.max((int)(cameras[currentCamera].x/10.0),0),coyote.getEngine().terrain.num_cols-3);
+			int cell_z =  Math.min(Math.max((int)(cameras[currentCamera].z/10.0),0),coyote.getEngine().terrain.num_rows-3);
 			double h = 1.9+((t.verticies[cell_z][cell_x]+t.verticies[cell_z][cell_x+1]+t.verticies[cell_z+1][cell_x]+t.verticies[cell_z+1][cell_x+1])/4);
 			cameras[currentCamera].y = Math.min(2000,Math.max(h,cameras[currentCamera].y+4*e.getWheelRotation()));
 		}
@@ -1553,8 +1547,8 @@ public class NGLCanvas extends JPanel
 	}	
 	public void keyPressed(KeyEvent ke)
 	{
-		Engine engine = game.getEngine();
-		KeyBindings bindings = game.getSettings().getKeyBindings();
+		Engine engine = coyote.getEngine();
+		KeyBindings bindings = coyote.getSettings().getKeyBindings();
 		//System.err.println("KeyPressed Event "+ke.getKeyChar());
 		if(ke.getKeyCode()==KeyEvent.VK_1)
 		{
@@ -1641,7 +1635,7 @@ public class NGLCanvas extends JPanel
 		else if(ke.getKeyCode()==KeyEvent.VK_DOWN) down = false;
 		else if(ke.getKeyCode()==KeyEvent.VK_LEFT) left = false;
 		else if(ke.getKeyCode()==KeyEvent.VK_RIGHT)w right = false;*/
-		KeyBindings bindings = game.getSettings().getKeyBindings();
+		KeyBindings bindings = coyote.getSettings().getKeyBindings();
 		
 		if(currentCamera==NGLCamera.TYPE_FPS)
 		{
@@ -1651,7 +1645,7 @@ public class NGLCanvas extends JPanel
 			else if(ke.getKeyCode()==bindings.turn_right_1) nav_turn_right = false;
 			else if(ke.getKeyCode()==bindings.strafe_left_1) nav_strafe_left = false;
 			else if(ke.getKeyCode()==bindings.strafe_right_1) nav_strafe_right = false;
-			else if(ke.getKeyCode()==bindings.toggle_mouselook&&game.getEngine().currentMode.toggleMouselook)
+			else if(ke.getKeyCode()==bindings.toggle_mouselook&&coyote.getEngine().currentMode.toggleMouselook)
 			{
 				mouselook_locked = false;
 			}
@@ -1662,7 +1656,7 @@ public class NGLCanvas extends JPanel
 			else if(ke.getKeyCode()==bindings.pan_down_1) nav_pan_down = false;
 			else if(ke.getKeyCode()==bindings.pan_left_1) nav_pan_left = false;
 			else if(ke.getKeyCode()==bindings.pan_right_1) nav_pan_right = false;
-			else if(ke.getKeyCode()==bindings.toggle_mouselook&&game.getEngine().currentMode.toggleMouselook)
+			else if(ke.getKeyCode()==bindings.toggle_mouselook&&coyote.getEngine().currentMode.toggleMouselook)
 			{
 				mouselook_locked = false;
 			}
@@ -1757,10 +1751,10 @@ public class NGLCanvas extends JPanel
 		else if(e.getButton()==MouseEvent.BUTTON3)//Right Click
 		{
 			hud.currentTool = -1;
-			if(game.getEngine().currentMode.toggleMouselook)
+			if(coyote.getEngine().currentMode.toggleMouselook)
 			{
 				mouselook = true;
-				canvas.setCursor(game.getEngine().cursors.getCursor(NovaCursorManager.TYPE_TRANSPARENT));
+				canvas.setCursor(coyote.getEngine().cursors.getCursor(NovaCursorManager.TYPE_TRANSPARENT));
 			}
 		}	
 	}
@@ -1803,10 +1797,10 @@ public class NGLCanvas extends JPanel
 		}
 		else if(e.getButton()==MouseEvent.BUTTON3)//Right Click
 		{
-			if(game.getEngine().currentMode.toggleMouselook)
+			if(coyote.getEngine().currentMode.toggleMouselook)
 			{
 				mouselook = false;
-				canvas.setCursor(game.getEngine().currentMode.cursor);
+				canvas.setCursor(coyote.getEngine().currentMode.cursor);
 			}
 		}
 	}

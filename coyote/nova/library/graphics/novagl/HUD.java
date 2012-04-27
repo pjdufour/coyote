@@ -1,12 +1,11 @@
 package nova.library.graphics.novagl;
 
-import nova.library.core.Engine;
-import nova.library.core.Game;
-import nova.library.core.Settings;
+import nova.game.Coyote;
+import nova.library.settings.Settings;
 
 public class HUD
 {
-	private Game game;
+	private Coyote coyote;
 	private NGLCanvas canvas;
 	
 	private int map[][];//Values Link to Actions
@@ -17,14 +16,14 @@ public class HUD
 	public int hover;
 	public int selected;
 	
-	public HUD(Game game)
+	public HUD(Coyote coyote)
 	{
-		this.game = game;
+		this.coyote = coyote;
 	}
 	public void activate(int width,int height)
 	{
-		Engine engine = game.getEngine();
-		Settings settings = game.getSettings();
+		Engine engine = coyote.getEngine();
+		Settings settings = coyote.getSettings();
 		map = new int[height][width];
 		for(int i = 0; i < height; i++)
 		{
